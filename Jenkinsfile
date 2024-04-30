@@ -4,13 +4,15 @@ pipeline {
     stages {
         stage("Checkout") {
             steps {
-                checkout scm
+                bat 'git.exe clone <https://github.com/Aditya-jaiswal07972/Docker1> .'
+                // Replace <repository_url> with your actual repository URL
             }
         }
         
         stage("Test") {
             steps {
                 // Add commands to run tests here if applicable
+                bat 'mvn test' // Example command to run Maven tests
             }
         }
         
