@@ -1,33 +1,41 @@
 pipeline {
     agent any
-
+    
     stages {
-        stage('Build') {
+        stage("Checkout") {
             steps {
-                // Checkout the source code from the repository
                 checkout scm
-
-                // Compile the Java code
-                sh 'javac GUI/*.java'
             }
         }
-        stage('Test') {
+        
+        stage("Test") {
             steps {
-                // Run any tests if applicable
-                // You can add your test commands here
+                // Add commands to run tests here if applicable
             }
         }
-        stage('Docker Build and Publish') {
+        
+        stage("Build") {
             steps {
-                // Build the Docker image
+                bat 'mvn clean package' // Build the project using Maven
+            }
+        }
+        
+        stage("Build Image") {
+            steps {
                 script {
-                    docker.build("lpu0docker0aditya14/yourimage:tag")
+                    bat 'docker build -t my-java-app:1.0 .' // Build the Docker image
                 }
-
-                // Push the Docker image to a registry
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker_credentials_id') {
-                        docker.image("lpu0docker0aditya14/yourimage:tag").push()
+            }
+        }
+        
+        stage("Docker push") {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker_cred', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
+                    script {
+                        bat 'docker login -u %DOCKERHUB_USERNAME% -p %DOCKERHUB_PASSWORD%' // Login to Docker Hub
+                        bat 'docker tag my-java-app:1.0 atishay3012/my-java-app:1.0' // Tag the Docker image
+                        bat 'docker push lpu0docker0aditya14/my-java-app:1.0' // Push the Docker image to Docker Hub
+                        bat 'docker logout' // Logout from Docker Hub
                     }
                 }
             }
