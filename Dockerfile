@@ -2,10 +2,10 @@
 FROM openjdk:latest
 
 # Set the working directory in the container
-WORKDIR /usr/src/app
+WORKDIR /usr/src/main/resources
 
 # Copy the compiled Java bytecode and resources to the container
-COPY . /usr/src/app
+COPY . /usr/src/main/resources
 
 # Compile Java code
 RUN javac GUI/*.java
