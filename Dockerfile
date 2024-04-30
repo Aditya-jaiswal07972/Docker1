@@ -5,7 +5,7 @@ FROM openjdk:latest
 EXPOSE 8081
 
 # Add the JAR file from the target directory to the Docker image
-ADD target/gui-1.0-SNAPSHOT.jar gui-1.0-SNAPSHOT.jar
+ADD target/gui.jar gui.jar
 
 # Set the entry point to run the JAR file
-ENTRYPOINT ["java","-jar","/gui-1.0-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","/gui.jar"]
