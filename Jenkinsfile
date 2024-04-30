@@ -4,8 +4,7 @@ pipeline {
     stages {
         stage("Checkout") {
             steps {
-                bat 'git.exe clone <https://github.com/Aditya-jaiswal07972/Docker1> .'
-                // Replace <repository_url> with your actual repository URL
+                checkout scm
             }
         }
         
